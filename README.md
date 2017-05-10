@@ -42,3 +42,6 @@ adb shell am start com.example.androidthings.simplepio/com.kevalpatel2106.remote
 
 #### How to access on my mobile?
 - **Android** : Download ES File manager and create new FTP connection under Network section. Use above credentials and connect.
+
+## Note:
+Everytime raspberry pi restarts you need to [mount USB drive](https://github.com/kevalpatel2106/remote-storage-android-things#mount-usb-drive) and [run the application](https://github.com/kevalpatel2106/remote-storage-android-things#build-and-run-the-application).
