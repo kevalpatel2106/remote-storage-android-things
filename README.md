@@ -1,5 +1,5 @@
 # Remote Storage
-<a href="https://www.paypal.me/kevalpatel2106"> <img src="https://img.shields.io/badge/paypal-donate-yellow.svg" /></a>
+<a href="https://www.paypal.me/kevalpatel2106"> <img src="https://img.shields.io/badge/paypal-donate-yellow.svg" /></a> [![Build Status](https://travis-ci.org/kevalpatel2106/remote-storage-android-things.svg?branch=master)](https://travis-ci.org/kevalpatel2106/remote-storage-android-things)
 
 #### Your one stop solution for remote file storage.
 
