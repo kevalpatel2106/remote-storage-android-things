@@ -13,8 +13,8 @@ adb shell
 - Mount the USB drive by running below command in adb shell *(Your USB drive srould be formatted in FAT file system.)*: 
 ```
 su
-"mkdir /mnt/usb"
-"mount -t vfat -o rw /dev/block/sda1 /mnt/usb"
+mkdir /mnt/usb
+mount -t vfat -o rw /dev/block/sda1 /mnt/usb
 ```
 - Run "Remote Storage" application.
 
