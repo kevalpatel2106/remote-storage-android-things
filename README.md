@@ -28,13 +28,13 @@ adb shell am start com.example.androidthings.simplepio/com.kevalpatel2106.remote
 
 ## Access the FTP server:
 - FTP server is running on the IP on which your rapberry pi is connected. The port address is 53705.
-  - Port : 53705
-  - URL : ftp://{YOUR IP}:53705
-  - Username : admin
-  - Password : admin
+  - **Port** : 53705
+  - **URL** : ftp://*{YOUR IP}*:53705
+  - **Username** : admin
+  - **Password** : admin
   
 #### How to access on my bowser?
-- Open  ftp://{YOUR IP}:53705 url in your bowser and enter username and password.
+- Open *ftp://{YOUR IP}:53705* url in your bowser and enter username and password.
 
 #### How to access on my computer? 
 - [**Mac**](http://osxdaily.com/2011/02/07/ftp-from-mac/)
