@@ -1,7 +1,6 @@
 package com.kevalpatel2106.ftp_server;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import org.apache.ftpserver.FtpServer;
@@ -28,49 +27,42 @@ import java.util.Enumeration;
 public class FTPManager {
     private static final int PORT_NUMBER = 53705;// The PORT_NUMBER number
     private static final String TAG = FTPManager.class.getSimpleName();
+    private final Context mContext;
 
     private FtpServer mFtpServer;
-    private String ftpConfigDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ftpConfig/";
 
     /**
      * Initialize the FTP server
      *
      * @param context instance of the caller.
-     * @see 'http://stackoverflow.com/a/42474815/4690731'
      */
+    @SuppressWarnings("ConstantConditions")
     public FTPManager(Context context) {
-//        try {
-//            mountDrive();
-//        } catch (IOException | InterruptedException e) {
-//            e.printStackTrace();
-//            return;
-//        }
-
-        File f = new File(ftpConfigDir);
-        if (!f.exists()) f.mkdir();
+        mContext = context;
 
         //Copy the resources.
-        copyResourceFile(context, R.raw.users, ftpConfigDir + "users.properties");
-        copyResourceFile(context, R.raw.ftpserver, ftpConfigDir + "ftpserver.jks");
+        copyResourceFile(context, R.raw.users, mContext.getExternalCacheDir().getAbsolutePath() + "/users.properties");
+        copyResourceFile(context, R.raw.ftpserver, mContext.getExternalCacheDir().getAbsolutePath() + "/ftpserver.jks");
     }
 
 
-    public String getLocalIpAddress() {
+    private String getLocalIpAddress() {
+        String ipAddrrss = "";
         try {
             Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces();
             while (enumNetworkInterfaces.hasMoreElements()) {
                 Enumeration<InetAddress> enumInetAddress = enumNetworkInterfaces.nextElement().getInetAddresses();
                 while (enumInetAddress.hasMoreElements()) {
                     InetAddress inetAddress = enumInetAddress.nextElement();
-                    if (inetAddress.isLoopbackAddress()) {
-                        return inetAddress.getHostAddress();
+                    if (inetAddress.isSiteLocalAddress()) {
+                        ipAddrrss = ipAddrrss + inetAddress.getHostAddress();
                     }
                 }
             }
         } catch (SocketException e) {
             e.printStackTrace();
         }
-        return null;
+        return ipAddrrss;
     }
 
     /**
@@ -116,7 +108,7 @@ public class FTPManager {
     public void startServer() {
         //Set the user factory
         PropertiesUserManagerFactory userManagerFactory = new PropertiesUserManagerFactory();
-        String filename = ftpConfigDir + "users.properties";
+        String filename = mContext.getExternalCacheDir().getAbsolutePath() + "/users.properties";
         File files = new File(filename);
         userManagerFactory.setFile(files);
 
@@ -138,12 +130,7 @@ public class FTPManager {
             e.printStackTrace();
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "onCreate: FTP server started. IP address: " + getLocalIpAddress() + ":" + PORT_NUMBER);
-            }
-        }).start();
+        Log.d(TAG, "onCreate: FTP server started. IP address: " + getLocalIpAddress() + " and Port:" + PORT_NUMBER);
     }
 
     /**
@@ -154,12 +141,5 @@ public class FTPManager {
             mFtpServer.stop();
             mFtpServer = null;
         }
-    }
-
-    private void mountDrive() throws IOException, InterruptedException {
-        Process p = Runtime.getRuntime().exec("su -c \"mkdir /mnt/usb\"");
-        p.waitFor();
-        p = Runtime.getRuntime().exec("su -c \"mount -t vfat -o rw /dev/block/sda1 /mnt/usb\"");
-        p.waitFor();
     }
 }
